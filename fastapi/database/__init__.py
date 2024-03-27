@@ -22,6 +22,8 @@ def get_db():
 
 
 def get_pd_db():
-    df = pd.read_csv("../ml-dataset/Financial DIstress.csv")
+    df = pd.read_csv(
+        "/home/creed347/Desktop/.dev/final_project/fastapi/ml-dataset/cvm_indicators_dataset_2011-2021.csv"
+    )
     return df
     pass

@@ -12,8 +12,8 @@ import {
 import LockPersonTwoToneIcon from "@mui/icons-material/LockPersonTwoTone";
 import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
+import auth from "../api/axios";
 
 export const paperStyle = {
   padding: 20,
@@ -41,11 +41,14 @@ const SingIn = () => {
 
   const handleSubmit = async (e, data) => {
     e.preventDefault();
+    console.log(data.email);
+
     try {
-      const response = await api.login({
+      const response = await auth.login({
         username: data.email,
         password: data.password,
       });
+      console.log(response);
 
       localStorage.setItem("accessToken", response.access_token);
       navigate("/models");

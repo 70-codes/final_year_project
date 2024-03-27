@@ -16,6 +16,7 @@ async def login(
     request: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db),
 ):
+    print(request)
     return auth_repo.get_user_by_email(
         request=request,
         db=db,

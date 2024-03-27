@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, Boolean
+from sqlalchemy import Column, Integer, String, Float, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
 from database import Base
 
@@ -14,7 +14,7 @@ class User(Base):
     updated_at = Column(String)
     password = Column(String)
     is_admin = Column(Boolean, default=0)
-    
+
     models = relationship("Models", back_populates="owner")
 
 
@@ -23,7 +23,7 @@ class Models(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String)
     description = Column(String)
-    user_id = Column(Integer)
+    user_id = Column(Integer, ForeignKey("users.id"))
     created_at = Column(String)
 
     owner = relationship("User", back_populates="models")

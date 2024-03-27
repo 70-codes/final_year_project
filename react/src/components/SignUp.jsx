@@ -17,30 +17,76 @@ import {
   add_margin_to_top,
 } from "./SignIn";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-
-const handleSubmit = (e, data) => {
-  e.preventDefault();
-  if (data.password !== data.confirmPassword) {
-    alert("Passwords do not match. Please try again.");
-    return;
-  }
-  console.log(data);
-};
+import auth from "../api/axios";
 
 const SignUp = () => {
   const [data, setData] = useState({
-    firstname: "",
-    lastname: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
     agreement: false,
   });
+
   const handleChange = (e) => {
     if (e.target.type === "checkbox") {
       setData((oldData) => ({ ...oldData, [e.target.name]: e.target.checked }));
     } else {
       setData((oldData) => ({ ...oldData, [e.target.name]: e.target.value }));
+    }
+  };
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
+
+  //   if (data.password !== data.confirmPassword) {
+  //     alert("Passwords do not match.");
+  //     return;
+  //   }
+
+  //   try {
+  //     const response = await axios.post(
+  //       "http://localhost:8000/register",
+  //       data,
+  //       {
+  //         headers: {
+  //           Accept: "application/json",
+  //           "Content-Type": "application/x-www-form-urlencoded",
+  //         },
+  //       }
+  //     );
+
+  //     if (response.status === 200) {
+  //       alert("Registration successful!");
+  //       window.location.href = "/signin";
+  //     }
+  //   } catch (error) {
+  //     console.error("An error occurred during registration: ", error.message);
+  //     alert("An error occurred during registration, please try again later.");
+  //   }
+  // };
+
+  const handleSubmit = async (e, data) => {
+    e.preventDefault();
+    try {
+      const userData = {
+        fname: data.firstname,
+        lname: data.lastname,
+        email: data.email,
+        // created_at: "",
+        password: data.password,
+      };
+      console.log(userData);
+
+      const response = await auth.createAccount(userData);
+
+      console.log("Account created successfully:", response);
+      // Handle successful account creation here
+      // e.g. redirect to login page, show success message, etc.
+    } catch (error) {
+      console.error("Error creating account:", error.message);
+      // Handle error cases here
+      // e.g. show error message to user
     }
   };
 

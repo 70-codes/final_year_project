@@ -6,9 +6,9 @@ const Home = () => {
   return (
     <Container>
       <div className="mt-11">
-        <div className="mt-11">Home</div>
+        <div className="mt-11">Upload the dataset for training and results</div>
         <div>
-          <FileUpload />
+          <FileUpload />  
         </div>
       </div>
     </Container>

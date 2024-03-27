@@ -11,7 +11,6 @@ class BaseML(BaseModel):
     user_id: int
     title: str
     description: str
-    user_id: int
     pass
 
 
@@ -24,12 +23,15 @@ class ShowML(BaseML):
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class CreateUser(BaseUser):
     created_at: str
     password: str
+
+    class Config:
+        from_attributes = True
 
 
 class CreateUserAsAdmin(CreateUser):
@@ -46,7 +48,7 @@ class ShowUser(BaseUser):
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class Token(BaseModel):

@@ -1,28 +1,30 @@
 import axios from "axios";
 
-const baseURL = "http://localhost:8000";
+export const baseURL = "http://localhost:8000";
 
 const axiosInstance = axios.create({
   baseURL,
-  headers: {
-    "Content-Type": "application/x-www-form-urlencoded",
-    Accept: "application/x-www-form-urlencoded",
-  },
 });
 
-const api = {
+export const config = {
+  headers: {
+    "Content-Type": "application/x-www-form-urlencoded",
+    accept: "application/json",
+  },
+};
+
+const auth = {
   login: async (username, password) => {
     try {
-      const formData = new URLSearchParams();
-      formData.append("grant_type", "");
-      formData.append("username", username);
-      formData.append("password", password);
-      formData.append("scope", "");
-      formData.append("client_id", "");
-      formData.append("client_secret", "");
+      // const formData = new FormData();
+      // formData.append("username", username);
+      // formData.append("password", password);
+      data = {
+        username: username,
+        password: password,
+      };
 
-      const response = await axiosInstance.post("/login", formData);
-
+      const response = await axiosInstance.post("/login", data, config);
       return response.data;
     } catch (error) {
       throw new Error("Login failed");
@@ -30,7 +32,7 @@ const api = {
   },
   createAccount: async (userData) => {
     try {
-      const response = await axiosInstance.post("/create-account", userData);
+      const response = await axiosInstance.post("/user", userData, config);
       return response.data;
     } catch (error) {
       throw new Error("Account creation failed");
@@ -38,4 +40,4 @@ const api = {
   },
 };
 
-export default api;
+export default auth;

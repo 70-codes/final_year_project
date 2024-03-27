@@ -24,11 +24,6 @@ def get_user_by_id(id: int, db):
     pass
 
 
-def get_all_users(db):
-    return db.query(User).all()
-    pass
-
-
 def create_user(request, db):
     user = get_user_by_email(request=request, db=db)
     if user:
@@ -36,6 +31,7 @@ def create_user(request, db):
             status_code=status.HTTP_409_CONFLICT,
             detail=f"User with email {request.email} already exists",
         )
+    
     user = User(
         fname=request.fname,
         lname=request.lname,

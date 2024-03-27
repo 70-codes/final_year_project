@@ -1,15 +1,8 @@
-import SignUp from "./components/SignUp";
-import SignIn from "./components/SignIn";
+import React from "react";
 import Routing from "./routes/Routing";
-import Nav from "./components/Nav";
+
 function App() {
-  return (
-    <>
-      <h1>
-        <Routing />
-      </h1>
-    </>
-  );
+  return <Routing />;
 }
 
 export default App;

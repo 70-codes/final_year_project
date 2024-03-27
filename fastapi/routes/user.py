@@ -4,7 +4,7 @@ from fastapi import status, Depends
 from database import get_db
 from sqlalchemy.orm import Session
 from repository import user_repo
-from typing import List
+from typing import List, Dict
 from authentication import get_current_user
 
 router = create_route(
@@ -13,10 +13,16 @@ router = create_route(
 )
 
 
-@router.get("/", response_model=List[ShowUser])
-async def get_all_users(db: Session = Depends(get_db)):
-    return user_repo.get_all_users(db=db)
-    pass
+# @router.get("/", response_model=List[ShowUser])
+# async def get_all_users(db: Session = Depends(get_db)):
+#     return user_repo.get_all_users(db=db)
+#     pass
+create_user = {
+    "fname": "fname",
+    "lname": "lname",
+    "email": "email",
+    "password": "password",
+}
 
 
 @router.post(
@@ -28,6 +34,8 @@ async def create_user(
     request: CreateUser,
     db: Session = Depends(get_db),
 ):
+    print(request.fname)
+
     return user_repo.create_user(
         request=request,
         db=db,
@@ -39,6 +47,7 @@ async def create_user(
 async def get_user(
     id: int,
     db: Session = Depends(get_db),
+    user: CreateUser = Depends(get_current_user),
 ):
     return user_repo.get_user_by_id(id=id, db=db)
     pass
@@ -63,6 +72,7 @@ async def update_user(
 async def delete_user(
     id: int,
     db: Session = Depends(get_db),
+    user: CreateUser = Depends(get_current_user),
 ):
     return user_repo.delete_user(id=id, db=db)
     pass

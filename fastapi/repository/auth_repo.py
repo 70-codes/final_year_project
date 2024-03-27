@@ -8,7 +8,7 @@ from schemas import Token, TokenData
 
 SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_MINUTES = 0.5
 
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
@@ -40,6 +40,13 @@ def get_user_by_email(request, db):
     refered as the username from the request"""
 
     user = db.query(User).filter(User.email == request.username.lower()).first()
+
+
+    print(request.username)
+    print(request.password)
+
+    print(user)
+
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -54,6 +61,6 @@ def get_user_by_email(request, db):
             detail="Wrong credentials",
         )
     # Generate a JWT token and return it
-    access_token = create_access_token(data={"sub": user.email})
+    access_token = create_access_token(data={"sub": user.email, "id": user.id})
     return Token(access_token=access_token, token_type="bearer")
     pass
